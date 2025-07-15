@@ -1,10 +1,38 @@
-.parent-div {
-    display: flex;
-    width: 100%;
-    height: 100%;
+body{
+    background-color: lavenderblush;
+}
+.board{
+    width: 500px;
+    height: 500px;
+    display: grid;
 }
 
-.child-div {
-    width: 16px;
-    height: 16px;
+.flex-container{
+    height: 100vh;
+    width: 100vw;
+    display : flex;
+    flex-direction: column;
+    flex-direction: center;
+    align-items: center;
+}
+
+.buttons{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+button{
+    padding: 8px;
+    border-radius: 12px;
+    border: none;
+    color: whitesmoke;
+    background-color: palevioletred
+    
+}
+.mode{
+    margin-bottom: 20px;
+}
+
+input{
+    width: 50px;
 }
