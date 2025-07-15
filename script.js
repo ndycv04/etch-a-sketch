@@ -1,42 +1,60 @@
-const container = document.querySelector("#grid-container");
+let color = 'pink';
+let click = true;
 
-for (let j = 0; j < 16; j++) {
-    const parentDiv = document.createElement('div');
-    parentDiv.classList.add("parent-div");
+function populateBoard(size){
+    let board = document.querySelector('.board');
+    let squares = board.querySelectorAll('div');
+    squares.forEach((div) => div.remove());
+    board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
-    for (let i = 0; i < 16; i++) {
-        const childDiv = document.createElement('div');
-        childDiv.classList.add("child-div");
-        childDiv.style.border = "1px solid black";
-        parentDiv.appendChild(childDiv);
+    let amount = size * size;
+    for(let i = 0; i < amount; i++){
+        let square = document.createElement('div');
+        square.addEventListener('mouseover', colorSquare);
+        square.style.backgroundColor = 'white';
+        board.insertAdjacentElement("beforeend", square);
     }
-
-    container.appendChild(parentDiv);
 }
 
-container.addEventListener('mouseover', (event) => {
-    let cell = event.target;
+populateBoard(16);
 
-    if (cell.classList.contains("child-div")) {
-        cell.classList.add("active");
-        changeOpacity(cell);
-        cell.style.backgroundColor = getRandomColor();
+function changeSize(input){
+    if(input >= 2 || input <= 100){
+        populateBoard(input);
     }
-});
+    else{
+        console.log("size should be between 2 and 100");
+    }
+}
 
-function changeOpacity(div) {
-    if (div.classList.contains("active")) {
-        let currentOpacity = parseFloat(window.getComputedStyle(div).opacity);
-        if (currentOpacity < 1) {
-            let newOpacity = Math.min(currentOpacity + 0.1, 1);
-            div.style.opacity = newOpacity;
+function colorSquare(){
+    if (click){
+        if(color === 'random'){
+            this.style.backgroundColor = `hsl(${Math.random() * 360}, 80%, 85%)`;
+        }else{
+            this.style.backgroundColor = color;
         }
     }
 }
 
-function getRandomColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgb(${r}, ${g}, ${b})`;
+function changeColor(choice){
+   color = choice 
 }
+
+function resetBoard(){
+    let board = document.querySelector('.board');
+    let squares = board.querySelectorAll('div');
+    squares.forEach((div) => div.style.backgroundColor ='white');
+}
+
+document.querySelector('body').addEventListener("click", (e) =>{
+    if(e.target.tagName != 'BUTTON'){
+        click = !click;
+        if(click){
+            document.querySelector('.mode').textContent = "Mode : Coloring"
+        } else{
+            document.querySelector('.mode').textContent = "Mode : Not Coloring"
+        }
+    }
+});
